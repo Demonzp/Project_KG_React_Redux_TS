@@ -5,22 +5,38 @@ import { routeNames } from '../../types/routeNames';
 import { IAddEmployee } from '../../types/employee';
 
 const axiosService = AxiosService.getInstance();
+let currentPage = 0;
+let currentLimit = 0;
 
 export const fetchEmployee: AppThunk = async (dispatch, getState) => {
-  const limit = getState().employee.limit;
-  const page = getState().employee.page;
-
   try {
     if (!axiosService.userAxios) {
       throw new Error('not Authorizad!');
     }
 
-    const res = await axiosService.userAxios.get<{doc:Employee[], page:number, pages:number, total:number}>(`${routeNames.EMPLOYEES}?limit=${limit}&page=${page}`);
+    const limit = getState().employee.limit;
+
+    if(currentPage<=0){
+      currentPage = getState().employee.page;
+    }
+
+    if(currentLimit<=0){
+      currentLimit = getState().employee.limit;
+    }
+
+    const res = await axiosService.userAxios.get<{docs:Employee[], page:number, pages:number, total:number}>(`${routeNames.EMPLOYEES}?limit=${currentLimit}&page=${currentPage}`);
+
+    if(res.data.page!==currentPage || limit!==currentLimit){
+      return;
+    }
+
+    currentPage = 0;
+    currentLimit = 0;
 
     dispatch<IActionFetchEmployee>({
       type: ActionTypesEmployee.FETCH_EMLOYEE,
       payload: {
-        employees: res.data.doc,
+        employees: res.data.docs,
         page: res.data.page,
         pages: res.data.pages,
         total: res.data.total
@@ -33,6 +49,7 @@ export const fetchEmployee: AppThunk = async (dispatch, getState) => {
 
 export const changePage = (page: number): AppThunk => (dispatch) => {
   dispatch<IActionChangePage>({ type: ActionTypesEmployee.CHANGE_PAGE, payload: page });
+  currentPage = page;
   dispatch(fetchEmployee);
 };
 
@@ -42,6 +59,7 @@ export const changeLimit = (limit: number): AppThunk =>(dispatch, getState)=>{
 
   dispatch<IActionChangeLimit>({type: ActionTypesEmployee.CHANGE_LIMIT, payload:limit});
   if(total>prevLimit || total>limit){
+    currentLimit = limit;
     dispatch(fetchEmployee);
   }
 }

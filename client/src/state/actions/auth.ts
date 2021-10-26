@@ -3,6 +3,7 @@ import AxiosService from '../../services/axiosService';
 import { AppDispatch, AppThunk } from '../store';
 import { IinitialStateSignin } from '../../types/signin';
 import { IinitialStateSignup } from '../../types/signup';
+import { AxiosError } from 'axios';
 const axiosService = AxiosService.getInstance();
 
 const _lockAuth: AppThunk<boolean> = (dispatch, getState) => {
@@ -63,9 +64,10 @@ export const signinAction = (vals: IinitialStateSignin): AppThunk<Promise<boolea
     dispatch(checkAuth);
     return true;
   } catch (error) {
-    let msg = error.message;
-    if (error.response) {
-      msg = error.response.data.message;
+    const err = error as AxiosError;
+    let msg = err.message;
+    if (err.response) {
+      msg = err.response.data.message;
     }
     dispatch<IActionSetLoading>({
       type: ActionTypes.SET_LOADING,
@@ -88,9 +90,10 @@ export const signupAction = (vals: IinitialStateSignup): AppThunk<Promise<boolea
     });
     return true;
   } catch (error) {
-    let msg = error.message;
-    if (error.response) {
-      msg = error.response.data;
+    const err = error as AxiosError;
+    let msg = err.message;
+    if (err.response) {
+      msg = err.response.data;
     }
     dispatch<IActionSetLoading>({
       type: ActionTypes.SET_LOADING,

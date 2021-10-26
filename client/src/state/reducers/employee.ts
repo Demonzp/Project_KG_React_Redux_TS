@@ -1,6 +1,13 @@
 import {IEmployeeState, ActionsEmployee, ActionTypesEmployee} from '../../types/employeeStore';
+import { Employee } from '../../types/employeeStore';
 
-const initialState = {
+const initialState: {
+  employees: Employee [],
+  page: number,
+  pages: number,
+  total: number,
+  limit: number
+} = {
   employees: [],
   page: 0,
   pages: 0,
@@ -12,6 +19,7 @@ const employee = (state: IEmployeeState = initialState, action: ActionsEmployee)
 
   switch (action.type) {
     case ActionTypesEmployee.FETCH_EMLOYEE: {
+
       return {
         ...state,
         ...action.payload

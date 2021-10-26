@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button, Card, CardBody, CardHeader, Form, FormGroup, FormFeedback, Input, Label } from 'reactstrap';
 
 import useAuth from '../../hooks/useAuth';
@@ -13,10 +13,8 @@ const initState: IinitialStateSignin = {
 }
 
 const Signin: React.FC = () => {
-  // Отримуємо функцію авторизації з контексту.
   const { signin } = useAuth();
 
-  //Беремо дані з форми авторизації та спрямовуємо їх у функцію авторизації, яку раніше отримали з контексту.
   const submitUserHandler = () => {
     signin(values);
   };

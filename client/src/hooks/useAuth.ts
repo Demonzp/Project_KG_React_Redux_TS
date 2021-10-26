@@ -7,7 +7,7 @@ import { IinitialStateSignin } from '../types/signin';
 import { IinitialStateSignup } from '../types/signup';
 import { useAppSelector, useThunkDispatch } from './useStore';
 
-let _isInit: boolean = false;
+let _isInit = false;
 
 const useAuth = () => {
   const { token, user, authAttempted, isLoading } = useAppSelector(state => state.auth);

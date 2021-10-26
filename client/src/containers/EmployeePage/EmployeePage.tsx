@@ -14,6 +14,7 @@ import { addEmployee, changeLimit, changePage, deleteEmployee, editEmployee } fr
 
 const EmployeePage: React.FC = () => {
   const { employees, pages, page, limit } = useAppSelector(state => state.employee);
+  
   const dispatch = useDispatch();
   const thunkDispatch = useThunkDispatch();
 

@@ -1,5 +1,5 @@
-import { IErrorEmpl, TEmployee } from "../types/employee";
-import { Employee } from "../types/employeeStore";
+import { IErrorEmpl, TEmployee } from '../types/employee';
+import { Employee } from '../types/employeeStore';
 
 const numNameChars = 2;
 

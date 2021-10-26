@@ -18,10 +18,6 @@ const SimplePaginator: React.FC<TProps> = ({ onPage = () => { }, pages, forcePag
   const [interval, _] = useState(5);
   const [arrPages, setArrPages] = useState<Array<number>>([]);
 
-  //const { page: locationPage } = useParams<{page:string}>();
-
-  //console.log('page = ', locationPage);
-
   const { page: locationPage } = getUrlParams(location);
 
   useEffect(() => {
@@ -45,7 +41,6 @@ const SimplePaginator: React.FC<TProps> = ({ onPage = () => { }, pages, forcePag
     } else {
       setPage(Number(locationPage));
     }
-    console.log('locationPage = ', locationPage);
   }, [location]);
 
   useEffect(() => {
