@@ -8,13 +8,11 @@ const axiosService = AxiosService.getInstance();
 let currentPage = 0;
 let currentLimit = 0;
 
-export const fetchEmployee: AppThunk = async (dispatch, getState) => {
+export const fetchEmployee: AppThunk = async (dispatch) => {
   try {
     if (!axiosService.userAxios) {
       throw new Error('not Authorizad!');
     }
-
-    const limit = getState().employee.limit;
 
     if(currentPage<=0){
       currentPage = getState().employee.page;
